@@ -2,7 +2,6 @@ from nomad.config.models.plugins import ParserEntryPoint
 
 
 class NewParserEntryPoint(ParserEntryPoint):
-
     def load(self):
         from nomad_txrm_parser.parsers.parser import NewParser
 

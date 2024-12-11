@@ -12,7 +12,6 @@
 
 from nomad.config import config
 from nomad.datamodel.data import Schema
-from nomad.datamodel.metainfo.annotations import ELNAnnotation, ELNComponentEnum
 from nomad.metainfo import Quantity, SchemaPackage
 
 configuration = config.get_plugin_entry_point(
@@ -61,5 +60,6 @@ class TXRMOutput(Schema):
     contrast = Quantity(type=str)
     project = Quantity(type=str)
     microscope_name = Quantity(type=str)
+
 
 m_package.__init_metainfo__()

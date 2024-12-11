@@ -2,7 +2,6 @@ from nomad.config.models.plugins import SchemaPackageEntryPoint
 
 
 class NewSchemaPackageEntryPoint(SchemaPackageEntryPoint):
-
     def load(self):
         from nomad_txrm_parser.schema_packages.schema_package import m_package
 

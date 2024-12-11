@@ -11,11 +11,11 @@ if TYPE_CHECKING:
     )
 
 import json
-import os
 import logging
+import os
+
 import txrm2tiff as txrm
 from nomad.config import config
-from nomad.datamodel.metainfo.workflow import Workflow
 from nomad.parsing.parser import MatchingParser
 
 import nomad_txrm_parser.schema_packages.schema_package as txrm_schema
@@ -26,6 +26,23 @@ configuration = config.get_plugin_entry_point(
 
 
 class NewParser(MatchingParser):
+    def parse_metadata_file(self):
+        try:
+            with open('metadata.json') as md_file:
+                md = json.load(md_file)
+                self.sec_data.operator = md['Operator']
+                self.sec_data.sample_type = md['Sample type']
+                self.sec_data.sample_subtype = md['Sample Sub-Type']
+                self.sec_data.sample_name = md['Sample name']
+                self.sec_data.elements_thickness = md['Relevant elements and thickness']
+                self.sec_data.xray_source = md['X-ray source']
+                self.sec_data.resolution = md['Resolution']
+                self.sec_data.contrast = md['Contrast']
+                self.sec_data.project = md['Project']
+                self.sec_data.microscope_name = md['Microscope name']
+        except FileNotFoundError:
+            pass
+
     def parse(
         self,
         mainfile: str,
@@ -77,23 +94,9 @@ class NewParser(MatchingParser):
         self.sec_data.pixel_size = self.metadata['PixelSize'][0]
         self.sec_data.temperature = self.metadata['Temperature'][0]
         self.sec_data.x_position = self.metadata['XPosition']
-        self.sec_data.y_position = self.metadata['XrayMagnification']
-        self.sec_data.z_position = self.metadata['YPosition']
-        self.sec_data.xray_magnification = self.metadata['ZPosition']
+        self.sec_data.y_position = self.metadata['YPosition']
+        self.sec_data.z_position = self.metadata['ZPosition']
+        self.sec_data.xray_magnification = self.metadata['XrayMagnification']
         self.sec_data.zone_plate_name = self.metadata['ZonePlateName']
 
-        try:
-            with open('metadata.json', 'r') as md_file:
-                md = json.load(md_file)
-                self.sec_data.operator = md['Operator']
-                self.sec_data.sample_type = md['Sample type']
-                self.sec_data.sample_subtype = md['Sample Sub-Type']
-                self.sec_data.sample_name = md['Sample name']
-                self.sec_data.elements_thickness = md['Relevant elements and thickness']
-                self.sec_data.xray_source = md['X-ray source']
-                self.sec_data.resolution = md['Resolution']
-                self.sec_data.contrast = md['Contrast']
-                self.sec_data.project = md['Project']
-                self.sec_data.microscope_name = md['Microscope name']
-        except FileNotFoundError:
-            pass
+        self.parse_metadata_file()
