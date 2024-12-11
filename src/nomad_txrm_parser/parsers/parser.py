@@ -28,7 +28,7 @@ configuration = config.get_plugin_entry_point(
 class NewParser(MatchingParser):
     def parse_metadata_file(self):
         try:
-            with open('metadata.json') as md_file:
+            with open(f'{self.maindir}/metadata.json') as md_file:
                 md = json.load(md_file)
                 self.sec_data.operator = md['Operator']
                 self.sec_data.sample_type = md['Sample type']
