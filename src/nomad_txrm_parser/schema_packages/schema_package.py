@@ -61,5 +61,7 @@ class TXRMOutput(Schema):
     project = Quantity(type=str)
     microscope_name = Quantity(type=str)
 
+    md_file_not_found = Quantity(type=bool)
+
 
 m_package.__init_metainfo__()

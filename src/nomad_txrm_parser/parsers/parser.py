@@ -40,8 +40,9 @@ class NewParser(MatchingParser):
                 self.sec_data.contrast = md['Contrast']
                 self.sec_data.project = md['Project']
                 self.sec_data.microscope_name = md['Microscope name']
+                self.sec_data.md_file_not_found = False
         except FileNotFoundError:
-            pass
+            self.sec_data.md_file_not_found = True
 
     def parse(
         self,
