@@ -26,6 +26,27 @@ configuration = config.get_plugin_entry_point(
 
 
 class NewParser(MatchingParser):
+    def typing_units(self):
+        try:
+            with open(f'{self.maindir}/metadata.json') as md_file:
+                md = json.load(md_file)
+                txrm_schema.TXRMOutput.angles.unit = md['angles_units']
+                cycling = md['cycling_parameters']
+                txrm_schema.Cycling.pulse_length.unit = cycling['pulse_length_units']
+                txrm_schema.Cycling.base_temperature.unit = cycling[
+                    'base_temperature_units'
+                ]
+                txrm_schema.Cycling.peak_temperature.unit = cycling[
+                    'peak_temperature_units'
+                ]
+                txrm_schema.Cycling.base_voltage.unit = cycling['base_voltage_units']
+                txrm_schema.Cycling.peak_voltage.unit = cycling['peak_voltage_units']
+                txrm_schema.Cycling.resistance_at_room_temperature.unit = cycling[
+                    'resistance_units'
+                ]
+        except FileNotFoundError:
+            self.logger.error("The complementary 'metadata.json' file was not found ")
+
     def parse_metadata_file(self):
         try:
             with open(f'{self.maindir}/metadata.json') as md_file:
@@ -131,6 +152,8 @@ class NewParser(MatchingParser):
 
         self.txrm_file.open()
         self.metadata = txrm.txrm_functions.get_image_info_dict(self.txrm_file.ole)
+
+        self.typing_units()
 
         self.sec_data = txrm_schema.TXRMOutput()
         archive.data = self.sec_data
