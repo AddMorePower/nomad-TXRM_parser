@@ -1,0 +1,147 @@
+definitions:
+  sections:
+    RawTxrmMetadata:
+      quantities:
+        angles:
+          type: float
+          shape: ["*"]
+        camera_name:
+          type: str
+        current:
+          type: np.float64
+        dates:
+          type: str
+          shape: ["*"]
+        energies:
+          type: np.float64
+          shape: ["*"]
+        exposure_times:
+          type: np.float64
+          shape: ["*"]
+        horizontal_bin:
+          type: int
+        vertical_bin:
+          type: int
+        image_height:
+          type: int
+        image_width:
+          type: int
+        images_taken:
+          type: int
+        ion_chamber_currents:
+          type: np.float64
+          shape: ["*"]
+        mosaic_fast_axis:
+          type: int
+        mosaic_slow_axis:
+          type: int
+        mosaic_column:
+          type: int
+        mosaic_rows:
+          type: int
+        mosaic_mode:
+          type: int
+        nb_images:
+          type: int
+        objective_name:
+          type: str
+        optical_magnification:
+          type: np.float64
+        pixel_size:
+          type: np.float64
+        temperature:
+          type: np.float64
+        x_position:
+          type: np.float64
+          shape: ["*"]
+        y_position:
+          type: np.float64
+          shape: ["*"]
+        z_position:
+          type: np.float64
+          shape: ["*"]
+        xray_magnification:
+          type: np.float64
+          shape: ["*"]
+        zone_plate_name:
+          type: str
+          shape: ["*"]
+    Processing:
+      quantities:
+        reconstruction:
+          type: bool
+        reconstruction_software:
+          type: str
+        segmentation:
+          type: bool
+        segmentation_labels:
+          type: str
+    Cycling:
+      quantities:
+        cycling:
+          type: bool
+        cycling_type:
+          type: str
+        number_cycles:
+          type: int
+        pulse_length:
+          type: float
+          unit: microsecond
+        base_temperature:
+          type: float
+          unit: celsius
+        peak_temperature:
+          type: float
+          unit: celsius
+        base_voltage:
+          type: float
+          unit: V
+        peak_voltage:
+          type: float
+          unit: V
+        resistance_at_room_temperature:
+          type: float
+          unit: ohm
+    TXRMOutput:
+      quantities:
+        operator:
+          type: str
+        sample_type:
+          type: str
+        sample_subtype:
+          type: str
+        sample_name:
+          type: str
+        relevant_elements_and_thickness:
+          type: str
+        experimental_technique:
+          type: str
+        microscope_name:
+          type: str
+        xray_source:
+          type: str
+        resolution:
+          type: str
+        contrast:
+          type: str
+        project:
+          type: str
+        angles:
+          type: float
+          unit: degree
+        electrical_setup:
+          type: str
+        oscilloscope:
+          type: str
+        power_supply:
+          type: str
+      sub_sections:
+        raw_txrm_metadata:
+          section: RawTxrmMetadata
+          repeats: false
+        processing:
+          section: Processing
+          repeats: false
+        cycling:
+          section: Cycling
+          repeats: false

@@ -1,9 +1,57 @@
 # nomad-TXRM_parser
 
-A NOMAD parser for TXRM files (for IKTS)
-
 This `nomad` plugin was generated with `Cookiecutter` along with `@nomad`'s [`cookiecutter-nomad-plugin`](https://github.com/FAIRmat-NFDI/cookiecutter-nomad-plugin) template.
 
+A NOMAD parser for TXRM files (for IKTS)
+
+## Files that can be parsed
+
+This parser allows to parse .txrm files and also a supplementary metadata file named 'metadata.json' (only this name is valid).
+The JSON metadata file should be filled followed this structure:
+```
+{
+  "operator": "",
+  "sample_type": "",
+  "sample_subtype": "",
+  "sample_name": "",
+  "relevant_elements_and_thickness": "",
+  "experimental_technique": "",
+  "microscope_name": "",
+  "xray_source": "",
+  "resolution": "",
+  "contrast": "",
+  "project": "AddMorePower",
+  "angles": float,
+  "angles_units": "deg",
+  "electrical_setup": "",
+  "oscilloscope": "",
+  "power_supply": "",
+  "cycling_parameters": {
+    "cycling": boolean,
+    "cycling_type": "",
+    "number_cycles": float,
+    "pulse_length": float,
+    "pulse_length_units": "µs",
+    "base_temperature": float,
+    "base_temperature_units": "celsius",
+    "peak_temperature": float,
+    "peak_temperature_units": "celsius",
+    "base_voltage": float,
+    "base_voltage_units": "V",
+    "peak_voltage": float,
+    "peak_voltage_units": "V",
+    "resistance_at_room_temperature": float,
+    "resistance_units": "ohm"
+  },
+  "processing": {
+    "reconstruction": boolean,
+    "reconstruction_software": "",
+    "segmentation": boolean,
+    "segmentation_labels": ""
+  }
+}
+```
+The units used in this template may only be changed following the writing handled by the [Pint](https://pint.readthedocs.io/en/stable/index.html) Python package.
 
 ## Development
 
