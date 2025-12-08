@@ -12,7 +12,7 @@
 
 from nomad.config import config
 from nomad.datamodel.data import Schema
-from nomad.metainfo import Quantity, SchemaPackage
+from nomad.metainfo import MSection, Quantity, SchemaPackage, SubSection
 
 configuration = config.get_plugin_entry_point(
     'nomad_txrm_parser.schema_packages:schema_package_entry_point'
@@ -21,7 +21,7 @@ configuration = config.get_plugin_entry_point(
 m_package = SchemaPackage()
 
 
-class TXRMOutput(Schema):
+class RawTxrmMetadata(MSection):
     angles = Quantity(type=float, shape=['*'])
     camera_name = Quantity(type=str)
     current = Quantity(type=float, shape=[])
@@ -50,16 +50,45 @@ class TXRMOutput(Schema):
     xray_magnification = Quantity(type=float, shape=['*'])
     zone_plate_name = Quantity(type=str, shape=['*'])
 
+
+class Processing(MSection):
+    reconstruction = Quantity(type=bool)
+    reconstruction_software = Quantity(type=str)
+    segmentation = Quantity(type=bool)
+    segmentation_labels = Quantity(type=str)
+
+
+class Cycling(MSection):
+    cycling = Quantity(type=bool)
+    cycling_type = Quantity(type=str)
+    number_cycles = Quantity(type=int)
+    pulse_length = Quantity(type=float)
+    base_temperature = Quantity(type=float, unit='')
+    peak_temperature = Quantity(type=float, unit='')
+    base_voltage = Quantity(type=float, unit='')
+    peak_voltage = Quantity(type=float, unit='')
+    resistance_at_room_temperature = Quantity(type=float, unit='')
+
+
+class TXRMOutput(Schema):
     operator = Quantity(type=str)
     sample_type = Quantity(type=str)
     sample_subtype = Quantity(type=str)
     sample_name = Quantity(type=str)
-    elements_thickness = Quantity(type=str)
+    relevant_elements_and_thickness = Quantity(type=str)
+    experimental_technique = Quantity(type=str)
+    microscope_name = Quantity(type=str)
     xray_source = Quantity(type=str)
     resolution = Quantity(type=str)
     contrast = Quantity(type=str)
     project = Quantity(type=str)
-    microscope_name = Quantity(type=str)
+    angles = Quantity(type=float, unit='')
+    electrical_setup = Quantity(type=str)
+    oscilloscope = Quantity(type=str)
+    power_supply = Quantity(type=str)
+    raw_txrwm_metadata = SubSection(sub_section=RawTxrmMetadata.m_def, repeats=False)
+    processing = SubSection(sub_section=Processing.m_def, repeats=False)
+    cycling = SubSection(sub_section=Cycling.m_def, repeats=False)
 
 
 m_package.__init_metainfo__()
